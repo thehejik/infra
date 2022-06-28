@@ -4,11 +4,11 @@ These terraform files were created to support Combustion system configuration
 utility (cloud-init replacement) used by openSUSE cloud images on libvirt KVM
 hypervisor via terraform-provider-libvirt.
 
-Resources:
-https://github.com/dmacvicar/terraform-provider-libvirt
-https://en.opensuse.org/Portal:MicroOS/Combustion
-https://build.opensuse.org/package/show/devel:kubic:ignition/combustion
-https://pdostal.cz/2022/02/19/installing-opensuse-microos-and-tumbleweed-in-qemu
+Resources:  
+https://github.com/dmacvicar/terraform-provider-libvirt  
+https://en.opensuse.org/Portal:MicroOS/Combustion  
+https://build.opensuse.org/package/show/devel:kubic:ignition/combustion  
+https://pdostal.cz/2022/02/19/installing-opensuse-microos-and-tumbleweed-in-qemu  
 
 ## Prerequisites
 
@@ -16,9 +16,9 @@ Configure bridge `br0` on libvirt KVM machine with enslaved uplink interface
 https://doc.opensuse.org/documentation/leap/virtualization/html/book-virtualization/cha-libvirt-host.html#libvirt-networks-bridged
 
 Libvirt KVM hypervisor machine has to be properly configured to allow remote
-ssh connection from terraform node machine. This can by achived by adding ssh
+ssh connection from terraform node machine. This can by achieved by adding ssh
 public key into `~/.ssh/authorized_keys` on libvirt machine for user specified
-in `libvirt_uri` value and modifying these values in /etc/libvirt/libvirtd.conf:
+in `libvirt_uri` tf variable and amending values in `/etc/libvirt/libvirtd.conf`:
 
 ```sh
 listen_tcp = 1
@@ -53,7 +53,7 @@ terraform output
 ## Virtual machines access
 
 VMs deployed by these terraform states are using `root:linux` credentials by
-default. The default password can be changed in `combustion-script` file.
+default. The default password can be changed via `combustion-script`.
 
 For access over ssh use `ssh -i id_ecdsa_shared root@<node_address>`
 
