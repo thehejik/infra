@@ -1,0 +1,18 @@
+#libvirt_uri="qemu:///system"
+libvirt_uri="qemu+ssh://user@libvirt-machine/system"
+
+image_uri = "https://download.opensuse.org/tumbleweed/appliances/openSUSE-MicroOS.x86_64-kvm-and-xen.qcow2"
+
+# Brctl device with enslaved adapter connected to uplink on hypervisor
+bridge = "br0"
+
+# Identifier to make all your resources unique and avoid clashes with other users of this terraform project
+vm_name = "microOS-cluster"
+
+# Number of vms
+vms = 3
+
+# Resources
+vm_memory = 8192
+vm_vcpu = 4
+vm_disk_size = 25769803776
