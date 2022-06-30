@@ -64,3 +64,12 @@ with ssh-rsa keys.
 
 Please use enclosed ssh keypair `id_ecdsa_shared*` or generate your own ECDSA
 keypair by `ssh-keygen -t ecdsa` command.
+
+## Using control.sh script
+File `control.sh` contains function `node_run()` which can help you with running
+command(s) on any of just deployed node(s). Imagine this function as simple
+`salt '<minion identifier>' cmd.run <command>` replacement using just plain ssh
+connection.
+
+First call `source control.sh` in bash shell inside a dir with
+`terraform.tfstate` file. In the same dir run `node_run` to get help.
