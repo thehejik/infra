@@ -25,7 +25,7 @@ node_run() {
   while [[ $# > 0 ]]; do
     case $1 in
       +([[:digit:]]))
-        [[ ! -z ${IP_NODES[$1]} ]] && IP_USED_NODES+=(${IP_NODES[$1]})
+        [[ ! -z ${IP_NODES[$1]} ]] && IP_USED_NODES+=(${IP_NODES[$1]}) || echo "WARNING: Node index $1 not found"
         shift 
         ;;
       *) 
@@ -41,9 +41,9 @@ node_run() {
 RUN_COLOR='\033[0;37m'
 OUT_COLOR='\033[0;34m'
 NC='\033[0m'
-echo -e "Running:\n${RUN_COLOR}$command${NC}" ; echo
+[[ ${#IP_USED_NODES[@]} -gt 0 ]] && { echo -e "Running:\n${RUN_COLOR}$command${NC}" ; echo; }
 
-  [[ ${#IP_USED_NODES[@]} -eq 0 ]] && echo "No valid nodes found" && return 1
+  [[ ${#IP_USED_NODES[@]} -eq 0 ]] && echo "No valid node(s) found" && return 1
   [[ -z $command ]] && echo "No command specified" && return 1
 
   # store unique values only
