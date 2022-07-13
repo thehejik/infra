@@ -8,7 +8,7 @@ readarray -t IP_NODES < <(jq '.ip_vms.value[]' -r <<< "$JSON")
 nodes_run() {
     local vm
     for vm in "${IP_NODES[@]}"; do
-        ssh $vm "$@" || { echo "ssh $vm $@"; false; }
+        assh $vm "$@" || { echo "ssh $vm $@"; false; }
     done
 }
 
@@ -36,13 +36,12 @@ node_run() {
     esac
   done
 
-# Allow piping and "command line" interface by using tee
-[[ -z $command ]] && command=$(tee)
-RUN_COLOR='\033[0;37m'
-OUT_COLOR='\033[0;34m'
-NC='\033[0m'
-[[ ${#IP_USED_NODES[@]} -gt 0 ]] && { echo -e "Running:\n${RUN_COLOR}$command${NC}" ; echo; }
-
+  # Allow piping and "command line" interface by using tee
+  [[ -z $command ]] && command=$(tee)
+  RUN_COLOR='\033[0;37m'
+  OUT_COLOR='\033[0;34m'
+  NC='\033[0m'
+  [[ ${#IP_USED_NODES[@]} -gt 0 ]] && { echo -e "Running:\n${RUN_COLOR}$command${NC}" ; echo; }
   [[ ${#IP_USED_NODES[@]} -eq 0 ]] && echo "No valid node(s) found" && return 1
   [[ -z $command ]] && echo "No command specified" && return 1
 
@@ -50,6 +49,7 @@ NC='\033[0m'
   readarray -t IP_USED_NODES < <(printf "%s\n" ${IP_USED_NODES[@]} | uniq)
 
   for vm in "${IP_USED_NODES[@]}"; do
+    # TODO store return code of ssh command and return the non-zero value if anything fail
     output=$(assh $vm "$command" 2>&1 || { echo "ssh $vm $command"; false; })
     echo -e "Output on node $vm:\n${OUT_COLOR}$output${NC}" ; echo
   done
